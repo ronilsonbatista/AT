@@ -47,16 +47,42 @@ def cadastrar_produto(produtos):
 # Função para listar todos os produto 
 def listar_produtos(produtos):
     print("\n***Lista de Produtos Cadastrados***")
+
     if not produtos:
         print("Não há produtos cadastrados.")
         return
+
     for produto in produtos:
         print(f"Descrição: {produto['descricao']}")
         print(f"Código: {produto['codigo']}")
         print(f"Quantidade: {produto['quantidade']}")
         print(f"Custo: R${produto['custo']:.2f}")
         print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
+        print("-" * 30)  # Linha separadora entre produtos
 
+# Função para ordenar  os produto 
+def ordenar_produtos_por_quantidade(produtos, ordem="crescente"):
+    print("\n***Produtos Ordenados por Quantidade***")
+
+    if not produtos:  # Verifica se a lista está vazia
+        print("Não há produtos cadastrados.")
+        return
+
+    # Ordena a lista com base na quantidade
+    produtos_ordenados = sorted(
+        produtos,
+        key=lambda x: x['quantidade'],  # Ordena por 'quantidade'
+        reverse=(ordem == "decrescente")  # Define a ordem com base na escolha
+    )
+
+    # Exibe a lista ordenada
+    for produto in produtos_ordenados:
+        print(f"Descrição: {produto['descricao']}")
+        print(f"Código: {produto['codigo']}")
+        print(f"Quantidade: {produto['quantidade']}")
+        print(f"Custo: R${produto['custo']:.2f}")
+        print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
+        print("-" * 30)  
 
 estoque = carregar_estoque_inicial(estoque_inicial)
 
@@ -64,14 +90,29 @@ while True:
     print("\n ***Sistema de Gerenciamento de Estoque***")
     print("1. Listar Produto")
     print("2. Cadastrar Novo Produto")
-    print("3. Sair")
+    print("3. Ordenar Produtos por Quantidade")
+    print("4. Sair")
     opcao = input("Escolha uma opção: ")
     
     if opcao == "1":
         listar_produtos(estoque)
-    if opcao == "2":
+    elif opcao == "2":
         cadastrar_produto(estoque)
     elif opcao == "3":
+
+        print("\nEscolha a ordem de exibição:")
+        print("1. Crescente")
+        print("2. Decrescente")
+
+        ordem_opcao = input("Opção: ")
+        if ordem_opcao == "1":
+            ordenar_produtos_por_quantidade(estoque, ordem="crescente")
+        elif ordem_opcao == "2":
+            ordenar_produtos_por_quantidade(estoque, ordem="decrescente")
+        else:
+            print("Opção inválida.")
+    
+    elif opcao == "4":
         print("Saindo. Até!")
         break
     else:
