@@ -44,6 +44,19 @@ def cadastrar_produto(produtos):
     produtos.append(novo_produto)
     print("Produto cadastrado com sucesso!")
 
+# Função para listar todos os produto 
+def listar_produtos(produtos):
+    print("\n***Lista de Produtos Cadastrados***")
+    if not produtos:
+        print("Não há produtos cadastrados.")
+        return
+    for produto in produtos:
+        print(f"Descrição: {produto['descricao']}")
+        print(f"Código: {produto['codigo']}")
+        print(f"Quantidade: {produto['quantidade']}")
+        print(f"Custo: R${produto['custo']:.2f}")
+        print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
+
 
 estoque = carregar_estoque_inicial(estoque_inicial)
 
@@ -55,7 +68,7 @@ while True:
     opcao = input("Escolha uma opção: ")
     
     if opcao == "1":
-        break
+        listar_produtos(estoque)
     if opcao == "2":
         cadastrar_produto(estoque)
     elif opcao == "3":
