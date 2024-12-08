@@ -84,6 +84,7 @@ def ordenar_produtos_por_quantidade(produtos, ordem="crescente"):
         print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
         print("-" * 30)  
 
+# Função para buscar os produto por codigo
 def buscar_produtos(produtos, codigo):
     print(f"\n***Busca de Produto por Código: {codigo}***")
     encontrados = [produto for produto in produtos if produto["codigo"] == codigo]
@@ -99,6 +100,16 @@ def buscar_produtos(produtos, codigo):
             print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
             print("-" * 30)
 
+# Função para remover os produto por codigo
+def remover_produto(produtos, codigo):
+    print(f"\n***Remoção de Produto por Código: {codigo}***")
+    for produto in produtos:
+        if produto["codigo"] == codigo:
+            produtos.remove(produto)
+            print(f"Produto '{produto['descricao']}' com código {codigo} foi removido com sucesso.")
+            return
+    print("Nenhum produto encontrado com esse código. Nenhuma ação realizada.")
+
 
 estoque = carregar_estoque_inicial(estoque_inicial)
 
@@ -108,7 +119,8 @@ while True:
     print("2. Cadastrar Novo Produto")
     print("3. Ordenar Produtos por Quantidade")
     print("4. Buscar Produto por Código")
-    print("5. Sair")
+    print("5. Remover Produto")
+    print("6. Sair")
     opcao = input("Escolha uma opção: ")
     
     if opcao == "1":
@@ -137,7 +149,15 @@ while True:
             buscar_produtos(produtos=estoque, codigo=codigo)
         except ValueError:
             print("Código inválido. Digite um número inteiro.")
-    elif opcao == "4":
+    elif opcao == "5":
+
+        try:
+            codigo = int(input("Digite o código do produto a ser removido: "))
+            remover_produto(produtos=estoque, codigo=codigo)
+        except ValueError:
+            print("Código inválido. Digite um número inteiro.")
+            
+    elif opcao == "6":
         print("Saindo. Até!")
         break
     else:
