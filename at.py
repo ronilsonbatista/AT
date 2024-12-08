@@ -84,6 +84,22 @@ def ordenar_produtos_por_quantidade(produtos, ordem="crescente"):
         print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
         print("-" * 30)  
 
+def buscar_produtos(produtos, codigo):
+    print(f"\n***Busca de Produto por Código: {codigo}***")
+    encontrados = [produto for produto in produtos if produto["codigo"] == codigo]
+    
+    if not encontrados:  # Se a lista estiver vazia
+        print("Nenhum produto encontrado com esse código.")
+    else:
+        for produto in encontrados:
+            print(f"Descrição: {produto['descricao']}")
+            print(f"Código: {produto['codigo']}")
+            print(f"Quantidade: {produto['quantidade']}")
+            print(f"Custo: R${produto['custo']:.2f}")
+            print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
+            print("-" * 30)
+
+
 estoque = carregar_estoque_inicial(estoque_inicial)
 
 while True:
@@ -91,12 +107,15 @@ while True:
     print("1. Listar Produto")
     print("2. Cadastrar Novo Produto")
     print("3. Ordenar Produtos por Quantidade")
-    print("4. Sair")
+    print("4. Buscar Produto por Código")
+    print("5. Sair")
     opcao = input("Escolha uma opção: ")
     
     if opcao == "1":
+
         listar_produtos(estoque)
     elif opcao == "2":
+
         cadastrar_produto(estoque)
     elif opcao == "3":
 
@@ -111,7 +130,13 @@ while True:
             ordenar_produtos_por_quantidade(estoque, ordem="decrescente")
         else:
             print("Opção inválida.")
-    
+    elif opcao == "4":
+
+        try:
+            codigo = int(input("Digite o código do produto: "))
+            buscar_produtos(produtos=estoque, codigo=codigo)
+        except ValueError:
+            print("Código inválido. Digite um número inteiro.")
     elif opcao == "4":
         print("Saindo. Até!")
         break
