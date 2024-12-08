@@ -23,6 +23,13 @@ def cadastrar_produto(produtos):
     print("***Cadastro de Novo Produto***")
     descricao = input("Descrição: ")
     id = int(input("Código (único): "))
+
+    # Verificar se o código já existe
+    for produto in produtos:
+        if produto["codigo"] == id:
+            print("Erro: Código já existente. Tente novamente.")
+            return
+
     quantidade = int(input("Quantidade em estoque: "))
     custo = float(input("Custo do item: "))
     preco_venda = float(input("Preço de venda por item: "))
