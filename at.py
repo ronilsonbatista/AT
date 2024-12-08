@@ -19,3 +19,20 @@ def carregar_estoque_inicial(estoque_str):
     return produtos
 
 
+while True:
+    print("\n ***Sistema de Gerenciamento de Estoque***")
+    print("1. Listar Produto")
+    print("2. Cadastrar Novo Produto")
+    print("3. Sair")
+    opcao = input("Escolha uma opção: ")
+    
+    if opcao == "1":
+        break
+    if opcao == "2":
+        break
+    elif opcao == "3":
+        print("Saindo. Até!")
+        break
+    else:
+        print("Opção inválida. Tente novamente.")
+    
