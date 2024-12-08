@@ -110,6 +110,20 @@ def remover_produto(produtos, codigo):
             return
     print("Nenhum produto encontrado com esse código. Nenhuma ação realizada.")
 
+# Função para consultar os produto esgotados
+def consultar_produtos_esgotados(produtos):
+    print("\n***Consulta de Produtos Esgotados***")
+    produtos_esgotados = [produto for produto in produtos if produto["quantidade"] == 0]
+    
+    if not produtos_esgotados:
+        print("Nenhum produto esgotado no momento.")
+    else:
+        for produto in produtos_esgotados:
+            print(f"Descrição: {produto['descricao']}")
+            print(f"Código: {produto['codigo']}")
+            print(f"Custo: R${produto['custo']:.2f}")
+            print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
+            print("-" * 30)
 
 estoque = carregar_estoque_inicial(estoque_inicial)
 
@@ -120,7 +134,8 @@ while True:
     print("3. Ordenar Produtos por Quantidade")
     print("4. Buscar Produto por Código")
     print("5. Remover Produto")
-    print("6. Sair")
+    print("6. Consultar Produtos Esgotados")
+    print("7. Sair")
     opcao = input("Escolha uma opção: ")
     
     if opcao == "1":
@@ -156,8 +171,11 @@ while True:
             remover_produto(produtos=estoque, codigo=codigo)
         except ValueError:
             print("Código inválido. Digite um número inteiro.")
-            
+
     elif opcao == "6":
+        consultar_produtos_esgotados(estoque)
+            
+    elif opcao == "7":
         print("Saindo. Até!")
         break
     else:
