@@ -147,13 +147,19 @@ def atualizar_preco_venda(produtos, codigo, novo_preco):
     
     for produto in produtos:
         if produto["codigo"] == codigo:  # Verifica se o codigo é corresponde ao produto
-            produto["preco_venda"] = novo_preco  # Atuliza o preço de venda
-            print(f"Preço atualizado com sucesso!")
-            print(f"Novo preço de venda do produto '{produto['descricao']}': R${produto['preco_venda']:.2f}")
-            return 
+   
+            if novo_preco < produto["custo"]: # Validar se o preço de venda não é menor que o custo
+                print("Erro: O preço de venda não pode ser menor que o custo do item.")
+                return
+
+        produto["preco_venda"] = novo_preco  # Atuliza o preço de venda
+        print(f"Preço atualizado com sucesso!")
+        print(f"Novo preço de venda do produto '{produto['descricao']}': R${produto['preco_venda']:.2f}")
+        return 
 
     print("Nenhum produto encontrado com esse código.")  # Se o codigo não for encontrado
 
+    
 estoque = carregar_estoque_inicial(estoque_inicial)
 
 while True:
@@ -220,7 +226,7 @@ while True:
             atualizar_preco_venda(produtos=estoque, codigo=codigo, novo_preco=novo_preco)
         except ValueError:
             print("Valor inválido. Digite valores numéricos para código e preço.")    
-            
+
     elif opcao == "10":
         print("Saindo. Vlwww!")
         break
