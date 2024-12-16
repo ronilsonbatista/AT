@@ -125,6 +125,35 @@ def consultar_produtos_esgotados(produtos):
             print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
             print("-" * 30)
 
+# Função para filtrar os produto com baixa qnt
+def filtrar_produtos_baixa_quantidade(produtos, limite_minimo):
+    print(f"\n ***Produtos com Quantidade Abaixo de {limite_minimo}***")
+    produtos_filtrados = [produto for produto in produtos if produto["quantidade"] < limite_minimo]
+    
+    if not produtos_filtrados:  # Se não houver produtos filtrados
+        print("Nenhum produto encontrado com quantidade abaixo do limite.")
+    else:
+        for produto in produtos_filtrados:
+            print(f"Descrição: {produto['descricao']}")
+            print(f"Código: {produto['codigo']}")
+            print(f"Quantidade: {produto['quantidade']}")
+            print(f"Custo: R${produto['custo']:.2f}")
+            print(f"Preço de Venda: R${produto['preco_venda']:.2f}")
+            print("-" * 30)
+
+# Função para update os preço de venda
+def atualizar_preco_venda(produtos, codigo, novo_preco):
+    print(f"\n***Atualização de Preço para o Produto com Código: {codigo}***")
+    
+    for produto in produtos:
+        if produto["codigo"] == codigo:  # Verifica se o codigo é corresponde ao produto
+            produto["preco_venda"] = novo_preco  # Atuliza o preço de venda
+            print(f"Preço atualizado com sucesso!")
+            print(f"Novo preço de venda do produto '{produto['descricao']}': R${produto['preco_venda']:.2f}")
+            return 
+
+    print("Nenhum produto encontrado com esse código.")  # Se o codigo não for encontrado
+
 estoque = carregar_estoque_inicial(estoque_inicial)
 
 while True:
@@ -135,7 +164,9 @@ while True:
     print("4. Buscar Produto por Código")
     print("5. Remover Produto")
     print("6. Consultar Produtos Esgotados")
-    print("7. Sair")
+    print("7. Filtrar Produtos com Baixa Quantidade")
+    print("9. Atualizar Preço de Venda")
+    print("10. Sair")
     opcao = input("Escolha uma opção: ")
     
     if opcao == "1":
@@ -174,9 +205,24 @@ while True:
 
     elif opcao == "6":
         consultar_produtos_esgotados(estoque)
-            
+
     elif opcao == "7":
-        print("Saindo. Até!")
+        try:
+            limite_minimo = int(input("Digite o limite mínimo de quantidade: "))
+            filtrar_produtos_baixa_quantidade(produtos=estoque, limite_minimo=limite_minimo)
+        except ValueError:
+            print("Valor inválido. Digite um número inteiro.")    
+
+    elif opcao == "9":
+        try:
+            codigo = int(input("Digite o codigo do produto: "))
+            novo_preco = float(input("Digite o novo preço de venda: "))
+            atualizar_preco_venda(produtos=estoque, codigo=codigo, novo_preco=novo_preco)
+        except ValueError:
+            print("Valor inválido. Digite valores numéricos para código e preço.")    
+            
+    elif opcao == "10":
+        print("Saindo. Vlwww!")
         break
     else:
         print("Opção inválida. Tente novamente.")
